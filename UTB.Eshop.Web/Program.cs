@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using UTB.Eshop.Application.Abstraction;
+using UTB.Eshop.Application.Implementation;
 using UTB.Eshop.Infrastructure.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,8 @@ ServerVersion serverVersion = new MySqlServerVersion("8.0.29");
 
 builder.Services.AddDbContext<EshopDbContext>(
     optionBuilder => optionBuilder.UseMySql(connectionString, serverVersion));
+
+builder.Services.AddScoped<IProductAppService, ProductAppService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -28,6 +32,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+app.MapControllerRoute(
+    name: "areas",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.MapControllerRoute(
     name: "default",
