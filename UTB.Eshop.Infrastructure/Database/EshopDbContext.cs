@@ -14,5 +14,13 @@ namespace UTB.Eshop.Infrastructure.Database
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            DatabaseInit dbInit = new DatabaseInit();
+            modelBuilder.Entity<Product>().HasData(dbInit.ProductInit());
+        }
     }
 }
