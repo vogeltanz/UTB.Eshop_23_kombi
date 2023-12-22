@@ -23,9 +23,14 @@ namespace UTB.Eshop.Web.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Create(Product product)
         {
-            _productAppService.Create(product);
+            if (ModelState.IsValid)
+            {
+                _productAppService.Create(product);
 
-            return RedirectToAction("Index", "Home", new { area = "" });
+                return RedirectToAction("Index", "Home", new { area = "" });
+            }
+
+            return View(product);
         }
     }
 }
